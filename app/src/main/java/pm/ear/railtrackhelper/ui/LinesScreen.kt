@@ -28,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -90,13 +89,15 @@ fun StationTimeline(station: Station, line: MetroLine, routeViewModel: RouteView
     val isConnection = station.connections.isNotEmpty()
 
     Row(modifier = Modifier.height(64.dp), verticalAlignment = Alignment.CenterVertically) {
-        Canvas(modifier = Modifier.width(48.dp).fillMaxHeight()) {
+        Canvas(modifier = Modifier.width(120.dp).fillMaxHeight()) {
             val strokeWidth = 8f
-            val xCenter = size.width / 2
+            val xCenter = size.width / 3 // Shift the main line to the left
             val yCenter = size.height / 2
             val startY = if (isFirst) yCenter else 0f
             val endY = if (isLast) yCenter else size.height
+            val circleRadius = 18f
 
+            // Draw the main timeline
             drawLine(
                 color = lineColor,
                 start = Offset(x = xCenter, y = startY),
@@ -105,27 +106,44 @@ fun StationTimeline(station: Station, line: MetroLine, routeViewModel: RouteView
             )
 
             if (isConnection) {
-                drawCircle(
-                    color = Color.White,
-                    radius = 18f,
-                    center = Offset(x = xCenter, y = yCenter)
+                // Main connection circle (hollow)
+                drawCircle(color = Color.White, radius = circleRadius, center = Offset(x = xCenter, y = yCenter))
+                drawCircle(color = lineColor, radius = circleRadius, center = Offset(x = xCenter, y = yCenter), style = Stroke(width = strokeWidth))
+
+                // Draw connection lines and dots horizontally
+                val connectionLineLength = circleRadius * 2
+                val startX = xCenter + circleRadius
+                val endX = startX + connectionLineLength
+
+                // Gray line extending to the right
+                drawLine(
+                    color = Color.Gray,
+                    start = Offset(x = startX, y = yCenter),
+                    end = Offset(x = endX, y = yCenter),
+                    strokeWidth = strokeWidth / 2
                 )
-                drawCircle(
-                    color = lineColor,
-                    radius = 18f,
-                    center = Offset(x = xCenter, y = yCenter),
-                    style = Stroke(width = strokeWidth)
-                )
+
+                station.connections.forEachIndexed { index, connectionLineId ->
+                    val connectionLine = routeViewModel.selectedCity.value.lines.find { it.lineId == connectionLineId }
+                    connectionLine?.let {
+                        val connectionColor = Color(android.graphics.Color.parseColor(it.lineColor))
+                        val dotX = endX + (index * (circleRadius * 2 + 8.dp.toPx())) + circleRadius
+                        
+                        drawCircle(
+                            color = connectionColor,
+                            radius = circleRadius,
+                            center = Offset(x = dotX, y = yCenter)
+                        )
+                    }
+                }
+
             } else {
-                drawCircle(
-                    color = lineColor,
-                    radius = 12f,
-                    center = Offset(x = xCenter, y = yCenter)
-                )
+                // Regular station dot (solid)
+                drawCircle(color = lineColor, radius = 12f, center = Offset(x = xCenter, y = yCenter))
             }
         }
 
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(8.dp))
 
         Text(routeViewModel.getStationName(station))
 
