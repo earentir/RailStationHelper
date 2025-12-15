@@ -6,8 +6,8 @@ import com.google.gson.Gson
 class MetroRepository(private val context: Context) {
 
     fun getCities(): List<City> {
-        val cityNames = listOf("athens.json", "thessaloniki.json")
-        return cityNames.mapNotNull {
+        val cityFiles = listOf("athens.json", "thessaloniki.json")
+        return cityFiles.mapNotNull {
             try {
                 val jsonString = context.assets.open(it).bufferedReader().use { it.readText() }
                 Gson().fromJson(jsonString, City::class.java)

@@ -3,9 +3,10 @@
   "lines": [
     {
       "lineId": "M1",
+      "lineType": "Metro",
       "lineColor": "#009639",
       "stations": [
-        { "nameEn": "Piraeus", "nativeName": "Πειραιάς", "connections": ["M3"] },
+        { "nameEn": "Piraeus", "nativeName": "Πειραιάς", "connections": ["M3", "P1", "P2", "T7", "Train"] },
         { "nameEn": "Faliro", "nativeName": "Φάληρο", "connections": [] },
         { "nameEn": "Moschato", "nativeName": "Μοσχάτο", "connections": [] },
         { "nameEn": "Kallithea", "nativeName": "Καλλιθέα", "connections": [] },
@@ -23,9 +24,9 @@
         { "nameEn": "Perissos", "nativeName": "Περισσός", "connections": [] },
         { "nameEn": "Pefkakia", "nativeName": "Πευκάκια", "connections": [] },
         { "nameEn": "Nea Ionia", "nativeName": "Νέα Ιωνία", "connections": [] },
-        { "nameEn": "Irakleio", "nativeName": "Ηράκλειο", "connections": [] },
+        { "nameEn": "Irakleio", "nativeName": "Ηράκλειο", "connections": ["P1"] },
         { "nameEn": "Eirini", "nativeName": "Ειρήνη", "connections": [] },
-        { "nameEn": "Neratziotissa", "nativeName": "Νερατζιώτισσα", "connections": [] },
+        { "nameEn": "Neratziotissa", "nativeName": "Νερατζιώτισσα", "connections": ["P1"] },
         { "nameEn": "Maroussi", "nativeName": "Μαρούσι", "connections": [] },
         { "nameEn": "KAT", "nativeName": "ΚΑΤ", "connections": [] },
         { "nameEn": "Kifissia", "nativeName": "Κηφισιά", "connections": [] }
@@ -33,6 +34,7 @@
     },
     {
       "lineId": "M2",
+      "lineType": "Metro",
       "lineColor": "#DA2128",
       "stations": [
         { "nameEn": "Anthoupoli", "nativeName": "Ανθούπολη", "connections": [] },
@@ -40,29 +42,30 @@
         { "nameEn": "Aghios Antonios", "nativeName": "Άγιος Αντώνιος", "connections": [] },
         { "nameEn": "Sepolia", "nativeName": "Σεπόλια", "connections": [] },
         { "nameEn": "Attiki", "nativeName": "Αττική", "connections": ["M1"] },
-        { "nameEn": "Larissa Station", "nativeName": "Σταθμός Λαρίσης", "connections": [] },
+        { "nameEn": "Larissa Station", "nativeName": "Σταθμός Λαρίσης", "connections": ["P1", "P2", "Train"] },
         { "nameEn": "Metaxourghio", "nativeName": "Μεταξουργείο", "connections": [] },
         { "nameEn": "Omonia", "nativeName": "Ομόνοια", "connections": ["M1"] },
         { "nameEn": "Panepistimio", "nativeName": "Πανεπιστήμιο", "connections": [] },
-        { "nameEn": "Syntagma", "nativeName": "Σύνταγμα", "connections": ["M3"] },
+        { "nameEn": "Syntagma", "nativeName": "Σύνταγμα", "connections": ["M3", "T6"] },
         { "nameEn": "Akropoli", "nativeName": "Ακρόπολη", "connections": [] },
         { "nameEn": "Syngrou-Fix", "nativeName": "Συγγρού-Φιξ", "connections": [] },
-        { "nameEn": "Neos Kosmos", "nativeName": "Νέος Κόσμος", "connections": [] },
+        { "nameEn": "Neos Kosmos", "nativeName": "Νέος Κόσμος", "connections": ["T6"] },
         { "nameEn": "Aghios Ioannis", "nativeName": "Άγιος Ιωάννης", "connections": [] },
         { "nameEn": "Dafni", "nativeName": "Δάφνη", "connections": [] },
         { "nameEn": "Aghios Dimitrios/Alexandros Panagoulis", "nativeName": "Άγιος Δημήτριος/Αλέξανδρος Παναγούλης", "connections": [] },
         { "nameEn": "Ilioupoli/Grigoris Lambrakis", "nativeName": "Ηλιούπολη/Γρηγόρης Λαμπράκης", "connections": [] },
         { "nameEn": "Alimos", "nativeName": "Άλιμος", "connections": [] },
         { "nameEn": "Argyroupoli", "nativeName": "Αργυρούπολη", "connections": [] },
-        { "nameEn": "Elliniko", "nativeName": "Ελληνικό", "connections": [] }
+        { "nameEn": "Elliniko", "nativeName": "Ελληνικό", "connections": ["T7"] }
       ]
     },
     {
       "lineId": "M3",
+      "lineType": "Metro",
       "lineColor": "#0077C0",
       "stations": [
         { "nameEn": "Dimotiko Theatro", "nativeName": "Δημοτικό Θέατρο", "connections": [] },
-        { "nameEn": "Piraeus", "nativeName": "Πειραιάς", "connections": ["M1"] },
+        { "nameEn": "Piraeus", "nativeName": "Πειραιάς", "connections": ["M1", "P1", "P2", "T7", "Train"] },
         { "nameEn": "Maniatika", "nativeName": "Μανιάτικα", "connections": [] },
         { "nameEn": "Nikaia", "nativeName": "Νίκαια", "connections": [] },
         { "nameEn": "Korydallos", "nativeName": "Κορυδαλλός", "connections": [] },
@@ -72,7 +75,7 @@
         { "nameEn": "Eleonas", "nativeName": "Ελαιώνας", "connections": [] },
         { "nameEn": "Kerameikos", "nativeName": "Κεραμεικός", "connections": [] },
         { "nameEn": "Monastiraki", "nativeName": "Μοναστηράκι", "connections": ["M1"] },
-        { "nameEn": "Syntagma", "nativeName": "Σύνταγμα", "connections": ["M2"] },
+        { "nameEn": "Syntagma", "nativeName": "Σύνταγμα", "connections": ["M2", "T6"] },
         { "nameEn": "Evangelismos", "nativeName": "Ευαγγελισμός", "connections": [] },
         { "nameEn": "Megaro Moussikis", "nativeName": "Μέγαρο Μουσικής", "connections": [] },
         { "nameEn": "Ambelokipi", "nativeName": "Αμπελόκηποι", "connections": [] },
@@ -83,11 +86,131 @@
         { "nameEn": "Nomismatokopio", "nativeName": "Νομισματοκοπείο", "connections": [] },
         { "nameEn": "Agia Paraskevi", "nativeName": "Αγία Παρασκευή", "connections": [] },
         { "nameEn": "Halandri", "nativeName": "Χαλάνδρι", "connections": [] },
-        { "nameEn": "Doukissis Plakentias", "nativeName": "Δουκίσσης Πλακεντίας", "connections": [] },
-        { "nameEn": "Pallini", "nativeName": "Παλλήνη", "connections": [] },
-        { "nameEn": "Paiania-Kantza", "nativeName": "Παιανία-Κάντζα", "connections": [] },
-        { "nameEn": "Koropi", "nativeName": "Κορωπί", "connections": [] },
-        { "nameEn": "Airport", "nativeName": "Αεροδρόμιο", "connections": [] }
+        { "nameEn": "Doukissis Plakentias", "nativeName": "Δουκίσσης Πλακεντίας", "connections": ["P1"] },
+        { "nameEn": "Pallini", "nativeName": "Παλλήνη", "connections": ["P1"] },
+        { "nameEn": "Paiania-Kantza", "nativeName": "Παιανία-Κάντζα", "connections": ["P1"] },
+        { "nameEn": "Koropi", "nativeName": "Κορωπί", "connections": ["P1"] },
+        { "nameEn": "Airport", "nativeName": "Αεροδρόμιο", "connections": ["P1"] }
+      ]
+    },
+    {
+      "lineId": "P1",
+      "lineType": "Proastiakos",
+      "lineColor": "#FFA500",
+      "stations": [
+        { "nameEn": "Piraeus", "nativeName": "Πειραιάς", "connections": ["M1", "M3", "P2", "T7", "Train"] },
+        { "nameEn": "Larissa Station", "nativeName": "Σταθμός Λαρίσης", "connections": ["M2", "P2", "Train"] },
+        { "nameEn": "Kato Acharnes", "nativeName": "Κάτω Αχαρνές", "connections": [] },
+        { "nameEn": "Metamorfosi", "nativeName": "Μεταμόρφωση", "connections": [] },
+        { "nameEn": "Irakleio", "nativeName": "Ηράκλειο", "connections": ["M1"] },
+        { "nameEn": "Neratziotissa", "nativeName": "Νερατζιώτισσα", "connections": ["M1"] },
+        { "nameEn": "Kifisias", "nativeName": "Κηφισίας", "connections": [] },
+        { "nameEn": "Pentelis", "nativeName": "Πεντέλης", "connections": [] },
+        { "nameEn": "Doukissis Plakentias", "nativeName": "Δουκίσσης Πλακεντίας", "connections": ["M3"] },
+        { "nameEn": "Pallini", "nativeName": "Παλλήνη", "connections": ["M3"] },
+        { "nameEn": "Paiania-Kantza", "nativeName": "Παιανία-Κάντζα", "connections": ["M3"] },
+        { "nameEn": "Koropi", "nativeName": "Κορωπί", "connections": ["M3"] },
+        { "nameEn": "Airport", "nativeName": "Αεροδρόμιο", "connections": ["M3"] }
+      ]
+    },
+    {
+      "lineId": "P2",
+      "lineType": "Proastiakos",
+      "lineColor": "#800080",
+      "stations": [
+        { "nameEn": "Piraeus", "nativeName": "Πειραιάς", "connections": ["M1", "M3", "P1", "T7", "Train"] },
+        { "nameEn": "Larissa Station", "nativeName": "Σταθμός Λαρίσης", "connections": ["M2", "P1", "Train"] },
+        { "nameEn": "Agioi Anargyroi", "nativeName": "Άγιοι Ανάργυροι", "connections": [] },
+        { "nameEn": "Ano Liosia", "nativeName": "Άνω Λιόσια", "connections": [] },
+        { "nameEn": "Aspropyrgos", "nativeName": "Ασπρόπυργος", "connections": [] },
+        { "nameEn": "Magoula", "nativeName": "Μαγούλα", "connections": [] },
+        { "nameEn": "Nea Peramos", "nativeName": "Νέα Πέραμος", "connections": [] },
+        { "nameEn": "Megara", "nativeName": "Μέγαρα", "connections": [] },
+        { "nameEn": "Kinetta", "nativeName": "Κινέττα", "connections": [] },
+        { "nameEn": "Agioi Theodoroi", "nativeName": "Άγιοι Θεόδωροι", "connections": [] },
+        { "nameEn": "Corinth", "nativeName": "Κόρινθος", "connections": [] },
+        { "nameEn": "Kiato", "nativeName": "Κιάτο", "connections": [] }
+      ]
+    },
+    {
+      "lineId": "T6",
+      "lineType": "Tram",
+      "lineColor": "#009FE3",
+      "stations": [
+        { "nameEn": "Syntagma", "nativeName": "Σύνταγμα", "connections": ["M2", "M3"] },
+        { "nameEn": "Zappeion", "nativeName": "Ζάππειον", "connections": [] },
+        { "nameEn": "Leoforos Vouliagmenis", "nativeName": "Λεωφόρος Βουλιαγμένης", "connections": [] },
+        { "nameEn": "Fix", "nativeName": "Φιξ", "connections": ["M2"] },
+        { "nameEn": "Kasomouli", "nativeName": "Κασομούλη", "connections": [] },
+        { "nameEn": "Neos Kosmos", "nativeName": "Νέος Κόσμος", "connections": ["M2"] },
+        { "nameEn": "Baknana", "nativeName": "Μπακνανά", "connections": [] },
+        { "nameEn": "Aigaiou", "nativeName": "Αιγαίου", "connections": [] },
+        { "nameEn": "Aghias Foteinis", "nativeName": "Αγίας Φωτεινής", "connections": [] },
+        { "nameEn": "Megalou Alexandrou", "nativeName": "Μεγάλου Αλεξάνδρου", "connections": [] },
+        { "nameEn": "Agia Paraskevi", "nativeName": "Αγία Παρασκευή", "connections": [] },
+        { "nameEn": "Mideias-Mykalis", "nativeName": "Μηδείας-Μυκάλης", "connections": [] },
+        { "nameEn": "Evaggeliki Scholi", "nativeName": "Ευαγγελική Σχολή", "connections": [] },
+        { "nameEn": "Achilleos", "nativeName": "Αχιλλέως", "connections": [] },
+        { "nameEn": "Amfitheas", "nativeName": "Αμφιθέας", "connections": [] },
+        { "nameEn": "Panagitsa", "nativeName": "Παναγίτσα", "connections": [] },
+        { "nameEn": "Edem", "nativeName": "Εδέμ", "connections": ["T7"] },
+        { "nameEn": "Pikrodafni", "nativeName": "Πικροδάφνη", "connections": ["T7"] }
+      ]
+    },
+    {
+      "lineId": "T7",
+      "lineType": "Tram",
+      "lineColor": "#ED1C24",
+      "stations": [
+        { "nameEn": "Asklipiio Voulas", "nativeName": "Ασκληπιείο Βούλας", "connections": [] },
+        { "nameEn": "Kentro Istioploias", "nativeName": "Κέντρο Ιστιοπλοΐας", "connections": [] },
+        { "nameEn": "Platia Vergoti", "nativeName": "Πλατεία Βεργωτή", "connections": [] },
+        { "nameEn": "Vouliagmenis", "nativeName": "Βουλιαγμένης", "connections": [] },
+        { "nameEn": "Glyfada", "nativeName": "Γλυφάδα", "connections": [] },
+        { "nameEn": "Platia Katraki", "nativeName": "Πλατεία Κατράκη", "connections": [] },
+        { "nameEn": "Aggelou Metaxa", "nativeName": "Άγγελου Μεταξά", "connections": [] },
+        { "nameEn": "Platia Esperidon", "nativeName": "Πλατεία Εσπερίδων", "connections": [] },
+        { "nameEn": "Ellinon Olympionikon", "nativeName": "Ελλήνων Ολυμπιονικών", "connections": [] },
+        { "nameEn": "Kentro Neon-Glyfadas", "nativeName": "Κέντρο Νέων-Γλυφάδας", "connections": [] },
+        { "nameEn": "Marina Alimou", "nativeName": "Μαρίνα Αλίμου", "connections": [] },
+        { "nameEn": "Kalamaki", "nativeName": "Καλαμάκι", "connections": [] },
+        { "nameEn": "Zefyros", "nativeName": "Ζέφυρος", "connections": [] },
+        { "nameEn": "Loutra Alimou", "nativeName": "Λουτρά Αλίμου", "connections": [] },
+        { "nameEn": "Iasonos", "nativeName": "Ιάσωνος", "connections": [] },
+        { "nameEn": "Agios Kosmas", "nativeName": "Άγιος Κοσμάς", "connections": [] },
+        { "nameEn": "2i Aghios Kosmas", "nativeName": "2η Άγιος Κοσμάς", "connections": [] },
+        { "nameEn": "3i Aghios Kosmas", "nativeName": "3η Άγιος Κοσμάς", "connections": [] },
+        { "nameEn": "Elliniko", "nativeName": "Ελληνικό", "connections": ["M2"] },
+        { "nameEn": "1i Elliniko", "nativeName": "1η Ελληνικό", "connections": [] },
+        { "nameEn": "2i Elliniko", "nativeName": "2η Ελληνικό", "connections": [] },
+        { "nameEn": "Pikrodafni", "nativeName": "Πικροδάφνη", "connections": ["T6"] },
+        { "nameEn": "Edem", "nativeName": "Εδέμ", "connections": ["T6"] },
+        { "nameEn": "Mouson", "nativeName": "Μουσών", "connections": [] },
+        { "nameEn": "Flisvos", "nativeName": "Φλοίσβος", "connections": [] },
+        { "nameEn": "Parko Flisvou", "nativeName": "Πάρκο Φλοίσβου", "connections": [] },
+        { "nameEn": "Trokantero", "nativeName": "Τροκαντερό", "connections": [] },
+        { "nameEn": "Tzitzifies", "nativeName": "Τζιτζιφιές", "connections": [] },
+        { "nameEn": "Delta Falirou", "nativeName": "Δέλτα Φαλήρου", "connections": [] },
+        { "nameEn": "Agia Skepi", "nativeName": "Αγία Σκέπη", "connections": [] },
+        { "nameEn": "Stadio Irinis & Filias", "nativeName": "Στάδιο Ειρήνης & Φιλίας", "connections": [] },
+        { "nameEn": "Neo Faliro", "nativeName": "Νέο Φάληρο", "connections": ["M1"] },
+        { "nameEn": "Piraeus", "nativeName": "Πειραιάς", "connections": ["M1", "M3", "P1", "P2"] }
+      ]
+    },
+    {
+      "lineId": "Train",
+      "lineType": "Train",
+      "lineColor": "#4F4F4F",
+      "stations": [
+        { "nameEn": "Piraeus", "nativeName": "Πειραιάς", "connections": ["M1", "M3", "P1", "P2", "T7"] },
+        { "nameEn": "Larissa Station", "nativeName": "Σταθμός Λαρίσης", "connections": ["M2", "P1", "P2"] },
+        { "nameEn": "Oinoi", "nativeName": "Οινόη", "connections": [] },
+        { "nameEn": "Chalkida", "nativeName": "Χαλκίδα", "connections": [] },
+        { "nameEn": "Thebes", "nativeName": "Θήβα", "connections": [] },
+        { "nameEn": "Lianokladi", "nativeName": "Λιανοκλάδι", "connections": [] },
+        { "nameEn": "Palaiofarsalos", "nativeName": "Παλαιοφάρσαλος", "connections": [] },
+        { "nameEn": "Larissa", "nativeName": "Λάρισα", "connections": [] },
+        { "nameEn": "Thessaloniki", "nativeName": "Θεσσαλονίκη", "connections": ["Train"] }
       ]
     }
   ]

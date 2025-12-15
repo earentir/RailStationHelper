@@ -18,6 +18,7 @@ class UserPreferencesRepository(private val context: Context) {
         val SELECTED_CITY = stringPreferencesKey("selected_city")
         val DISPLAY_LANGUAGE = stringPreferencesKey("display_language")
         val REMEMBER_STATIONS = booleanPreferencesKey("remember_stations")
+        val UTILIZE_ALL_RAIL_TYPES = booleanPreferencesKey("utilize_all_rail_types")
         fun favoriteStartStationKey(city: String) = stringPreferencesKey("favorite_start_station_${city}")
         fun favoriteEndStationKey(city: String) = stringPreferencesKey("favorite_end_station_${city}")
         fun lastStartStationKey(city: String) = stringPreferencesKey("last_start_station_${city}")
@@ -33,6 +34,9 @@ class UserPreferencesRepository(private val context: Context) {
     val rememberStations: Flow<Boolean> = context.dataStore.data
         .map { it[PreferencesKeys.REMEMBER_STATIONS] ?: false }
 
+    val utilizeAllRailTypes: Flow<Boolean> = context.dataStore.data
+        .map { it[PreferencesKeys.UTILIZE_ALL_RAIL_TYPES] ?: false }
+
     fun favoriteStartStation(city: String): Flow<String?> = context.dataStore.data
         .map { it[PreferencesKeys.favoriteStartStationKey(city)] }
 
@@ -47,6 +51,10 @@ class UserPreferencesRepository(private val context: Context) {
 
     suspend fun setRememberStations(remember: Boolean) {
         context.dataStore.edit { it[PreferencesKeys.REMEMBER_STATIONS] = remember }
+    }
+
+    suspend fun setUtilizeAllRailTypes(utilize: Boolean) {
+        context.dataStore.edit { it[PreferencesKeys.UTILIZE_ALL_RAIL_TYPES] = utilize }
     }
 
     suspend fun setSelectedCity(city: String) {

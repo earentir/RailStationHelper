@@ -3,9 +3,10 @@
   "lines": [
     {
       "lineId": "T1",
+      "lineType": "Metro",
       "lineColor": "#D6000D",
       "stations": [
-        { "nameEn": "Neos Sidirodromikos Stathmos", "nativeName": "Νέος Σιδηροδρομικός Σταθμός", "connections": ["T2"] },
+        { "nameEn": "Neos Sidirodromikos Stathmos", "nativeName": "Νέος Σιδηροδρομικός Σταθμός", "connections": ["T2", "Train"] },
         { "nameEn": "Dimokratias", "nativeName": "Δημοκρατίας", "connections": ["T2"] },
         { "nameEn": "Venizelou", "nativeName": "Βενιζέλου", "connections": ["T2"] },
         { "nameEn": "Agia Sofia", "nativeName": "Αγίας Σοφίας", "connections": ["T2"] },
@@ -22,9 +23,10 @@
     },
     {
       "lineId": "T2",
+      "lineType": "Metro",
       "lineColor": "#005AAA",
       "stations": [
-        { "nameEn": "Neos Sidirodromikos Stathmos", "nativeName": "Νέος Σιδηροδρομικός Σταθμός", "connections": ["T1"] },
+        { "nameEn": "Neos Sidirodromikos Stathmos", "nativeName": "Νέος Σιδηροδρομικός Σταθμός", "connections": ["T1", "Train"] },
         { "nameEn": "Dimokratias", "nativeName": "Δημοκρατίας", "connections": ["T1"] },
         { "nameEn": "Venizelou", "nativeName": "Βενιζέλου", "connections": ["T1"] },
         { "nameEn": "Agia Sofia", "nativeName": "Αγίας Σοφίας", "connections": ["T1"] },
@@ -40,6 +42,15 @@
         { "nameEn": "Aretsou", "nativeName": "Αρετσού", "connections": [] },
         { "nameEn": "Nea Krini", "nativeName": "Νέα Κρήνη", "connections": [] },
         { "nameEn": "Mikra", "nativeName": "Μίκρα", "connections": [] }
+      ]
+    },
+    {
+      "lineId": "Train",
+      "lineType": "Train",
+      "lineColor": "#4F4F4F",
+      "stations": [
+        { "nameEn": "Thessaloniki", "nativeName": "Θεσσαλονίκη", "connections": ["T1", "T2"] },
+        { "nameEn": "Larissa Station", "nativeName": "Σταθμός Λαρίσης", "connections": ["M2", "P1", "P2", "Train"] }
       ]
     }
   ]

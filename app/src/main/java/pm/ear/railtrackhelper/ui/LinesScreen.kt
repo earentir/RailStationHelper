@@ -60,7 +60,7 @@ fun LinesScreen(modifier: Modifier = Modifier, routeViewModel: RouteViewModel = 
             ExposedDropdownMenu(expanded = lineExpanded, onDismissRequest = { lineExpanded = false }) {
                 selectedCity.lines.forEach { line ->
                     DropdownMenuItem(
-                        text = { Text(line.lineId) },
+                        text = { Text("${line.lineId} (${line.lineType})") },
                         onClick = {
                             selectedLine = line
                             lineExpanded = false
@@ -86,7 +86,16 @@ fun LinesScreen(modifier: Modifier = Modifier, routeViewModel: RouteViewModel = 
 @Composable
 fun StationTimeline(station: Station, line: MetroLine, routeViewModel: RouteViewModel, isFirst: Boolean, isLast: Boolean) {
     val lineColor = Color(android.graphics.Color.parseColor(line.lineColor))
-    val isConnection = station.connections.isNotEmpty()
+    val utilizeAllRailTypes by routeViewModel.utilizeAllRailTypes.collectAsState()
+    
+    val connectionsToDisplay = if (utilizeAllRailTypes) {
+        station.connections
+    } else {
+        station.connections.filter { connectionId ->
+            routeViewModel.selectedCity.value.lines.any { it.lineId == connectionId && it.lineType == "Metro" }
+        }
+    }
+    val isConnection = connectionsToDisplay.isNotEmpty()
 
     Row(modifier = Modifier.height(64.dp), verticalAlignment = Alignment.CenterVertically) {
         Canvas(modifier = Modifier.width(120.dp).fillMaxHeight()) {
@@ -123,7 +132,7 @@ fun StationTimeline(station: Station, line: MetroLine, routeViewModel: RouteView
                     strokeWidth = strokeWidth / 2
                 )
 
-                station.connections.forEachIndexed { index, connectionLineId ->
+                connectionsToDisplay.forEachIndexed { index, connectionLineId ->
                     val connectionLine = routeViewModel.selectedCity.value.lines.find { it.lineId == connectionLineId }
                     connectionLine?.let {
                         val connectionColor = Color(android.graphics.Color.parseColor(it.lineColor))
@@ -149,7 +158,7 @@ fun StationTimeline(station: Station, line: MetroLine, routeViewModel: RouteView
 
         if (isConnection) {
             Spacer(Modifier.width(8.dp))
-            Text("(${station.connections.joinToString()})")
+            Text("(${connectionsToDisplay.joinToString()})")
         }
     }
 }

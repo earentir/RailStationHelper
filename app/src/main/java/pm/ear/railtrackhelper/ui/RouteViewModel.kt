@@ -26,8 +26,19 @@ class RouteViewModel(private val userPreferencesRepository: UserPreferencesRepos
     private val _snackbarChannel = Channel<String>()
     val snackbarMessage = _snackbarChannel.receiveAsFlow()
 
+    private val _utilizeAllRailTypes = userPreferencesRepository.utilizeAllRailTypes
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
+    val utilizeAllRailTypes: StateFlow<Boolean> = _utilizeAllRailTypes
+
     val selectedCity: StateFlow<City> = userPreferencesRepository.selectedCity
         .map { cityName -> MetroData.cities.find { it.name == cityName } ?: MetroData.cities.first() }
+        .combine(_utilizeAllRailTypes) { city, utilizeAll ->
+            if (utilizeAll) {
+                city
+            } else {
+                city.copy(lines = city.lines.filter { it.lineType == "Metro" })
+            }
+        }
         .stateIn(viewModelScope, SharingStarted.Lazily, MetroData.cities.first())
 
     val displayLanguage: StateFlow<String> = userPreferencesRepository.displayLanguage
@@ -147,6 +158,12 @@ class RouteViewModel(private val userPreferencesRepository: UserPreferencesRepos
     fun setDisplayLanguage(language: String) {
         viewModelScope.launch {
             userPreferencesRepository.setDisplayLanguage(language)
+        }
+    }
+
+    fun setUtilizeAllRailTypes(utilize: Boolean) {
+        viewModelScope.launch {
+            userPreferencesRepository.setUtilizeAllRailTypes(utilize)
         }
     }
 

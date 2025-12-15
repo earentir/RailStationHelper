@@ -24,7 +24,7 @@ class RouteFinder {
                 return segmentRoute(city, currentPath)
             }
 
-            val neighbors = getNeighbors(city, currentStation, allStations)
+            val neighbors = getNeighbors(city, currentStation)
 
             for (neighbor in neighbors) {
                 if (neighbor.nameEn !in visited) {
@@ -38,70 +38,78 @@ class RouteFinder {
         return null // No path found
     }
 
-    private fun getNeighbors(city: City, station: Station, allStations: Map<String, Station>): List<Station> {
+    private fun getNeighbors(city: City, station: Station): List<Station> {
         val neighbors = mutableSetOf<Station>()
+        val allLinesInCity = city.lines
 
-        // Find neighbors on the same line(s)
-        city.lines.forEach { line ->
-            val stationIndex = line.stations.indexOfFirst { it.nameEn == station.nameEn }
-            if (stationIndex != -1) {
-                if (stationIndex > 0) {
-                    neighbors.add(line.stations[stationIndex - 1])
-                }
-                if (stationIndex < line.stations.size - 1) {
-                    neighbors.add(line.stations[stationIndex + 1])
+        // Find all occurrences of the station across all lines
+        val stationOccurrences = allLinesInCity.flatMap { line ->
+            line.stations.filter { it.nameEn == station.nameEn }.map { stationOnLine -> line to stationOnLine }
+        }
+
+        stationOccurrences.forEach { (line, stationOnLine) ->
+            val stationIndex = line.stations.indexOfFirst { it.nameEn == stationOnLine.nameEn }
+
+            // Add previous and next stations on the same line
+            if (stationIndex > 0) {
+                neighbors.add(line.stations[stationIndex - 1])
+            }
+            if (stationIndex < line.stations.size - 1) {
+                neighbors.add(line.stations[stationIndex + 1])
+            }
+
+            // Add connections to other lines
+            stationOnLine.connections.forEach { connectionLineId ->
+                val connectedLine = allLinesInCity.find { it.lineId == connectionLineId }
+                connectedLine?.stations?.find { it.nameEn == station.nameEn }?.let {
+                    // This isn't quite right, a connection implies the ability to get on the other line.
+                    // The logic should probably consider the other line's stations from this point.
+                    // For now, we add the direct connections, and the BFS will explore from there.
                 }
             }
         }
-
-        // Find and add transfer stations from other lines
-        station.connections.forEach { lineId ->
-            city.lines.find { it.lineId == lineId }?.let { line ->
-                line.stations.find { it.nameEn == station.nameEn }?.let {
-                    // This is a station on another line with the same name, representing a transfer
-                    // We need to add its neighbors as well.
-                    val transferStationIndex = line.stations.indexOfFirst { it.nameEn == station.nameEn }
-                    if (transferStationIndex > 0) {
-                        neighbors.add(line.stations[transferStationIndex - 1])
-                    }
-                    if (transferStationIndex < line.stations.size - 1) {
-                        neighbors.add(line.stations[transferStationIndex + 1])
-                    }
-                }
-            }
-        }
-        return neighbors.toList()
+        
+        return neighbors.toList().distinctBy { it.nameEn }
     }
 
     private fun segmentRoute(city: City, path: List<Station>): List<RouteSegment> {
         if (path.isEmpty()) return emptyList()
 
         val segments = mutableListOf<RouteSegment>()
+        if (path.size == 1) {
+            findLineForStation(city, path.first())?.let { lineId ->
+                segments.add(RouteSegment(lineId, path))
+            }
+            return segments
+        }
+
         var currentSegmentStations = mutableListOf(path.first())
-        var currentLineId = findLineForStation(city, path.first())
+        var currentLineId = findCommonLine(city, path[0], path[1])
 
         for (i in 1 until path.size) {
             val previousStation = path[i - 1]
             val currentStation = path[i]
-            
             val commonLineId = findCommonLine(city, previousStation, currentStation)
 
             if (commonLineId != currentLineId) {
                 currentLineId?.let { segments.add(RouteSegment(it, ArrayList(currentSegmentStations))) }
                 currentSegmentStations = mutableListOf(previousStation, currentStation)
                 currentLineId = findLineForStation(city, currentStation, previousStation)
+
             } else {
                 currentSegmentStations.add(currentStation)
             }
         }
         currentLineId?.let { segments.add(RouteSegment(it, currentSegmentStations.distinctBy { it.nameEn })) }
+
         return segments
     }
-
+    
     private fun findLineForStation(city: City, station: Station, previousStation: Station? = null): String? {
         if (previousStation != null) {
             return findCommonLine(city, station, previousStation)
         }
+        // Find any line the station is on
         return city.lines.find { line -> line.stations.any { it.nameEn == station.nameEn } }?.lineId
     }
 

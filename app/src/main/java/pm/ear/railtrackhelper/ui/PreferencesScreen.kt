@@ -36,6 +36,7 @@ fun PreferencesScreen(modifier: Modifier = Modifier, routeViewModel: RouteViewMo
     val selectedCity by routeViewModel.selectedCity.collectAsState()
     val displayLanguage by routeViewModel.displayLanguage.collectAsState()
     val rememberStations by routeViewModel.rememberStations.collectAsState()
+    val utilizeAllRailTypes by routeViewModel.utilizeAllRailTypes.collectAsState()
     var cityExpanded by remember { mutableStateOf(false) }
     var languageExpanded by remember { mutableStateOf(false) }
     var showClearFavoritesDialog by remember { mutableStateOf(false) }
@@ -110,6 +111,18 @@ fun PreferencesScreen(modifier: Modifier = Modifier, routeViewModel: RouteViewMo
             Switch(
                 checked = rememberStations,
                 onCheckedChange = { routeViewModel.setRememberStations(it) }
+            )
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Utilize All Rail Types")
+            Switch(
+                checked = utilizeAllRailTypes,
+                onCheckedChange = { routeViewModel.setUtilizeAllRailTypes(it) }
             )
         }
 

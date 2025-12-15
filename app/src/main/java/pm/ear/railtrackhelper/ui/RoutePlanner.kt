@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
@@ -86,23 +87,31 @@ fun RoutePlannerScreen(
                 label = "Start Station",
                 query = routeViewModel.startStationQuery.collectAsState().value,
                 onQueryChange = { routeViewModel.onStartStationQueryChange(it) },
+                onClear = { routeViewModel.clearStartStation() },
                 suggestions = routeViewModel.startStationSuggestions.collectAsState().value,
                 onStationSelected = { startStation = it },
                 getStationName = { routeViewModel.getStationName(it) },
                 modifier = Modifier.weight(1f)
             )
-            IconButton(onClick = {}) {
+            IconButton(
+                onClick = {
+                    favoriteStartStation?.let {
+                        startStation = it
+                        routeViewModel.onStartStationQueryChange(routeViewModel.getStationName(it))
+                    }
+                },
+                modifier = Modifier.pointerInput(startStation) {
+                    detectTapGestures(
+                        onLongPress = { 
+                            startStation?.let { routeViewModel.toggleFavoriteStartStation(it) } 
+                        }
+                    )
+                }
+            ) {
                 Icon(
                     Icons.Default.Favorite,
                     contentDescription = "Favorite Start Station",
-                    tint = if (startStation != null && startStation == favoriteStartStation) Color.Red else Color.Gray,
-                    modifier = Modifier.pointerInput(startStation) {
-                        detectTapGestures(
-                            onLongPress = { 
-                                startStation?.let { routeViewModel.toggleFavoriteStartStation(it) } 
-                            }
-                        )
-                    }
+                    tint = if (startStation != null && startStation == favoriteStartStation) Color.Red else Color.Gray
                 )
             }
         }
@@ -112,23 +121,31 @@ fun RoutePlannerScreen(
                 label = "End Station",
                 query = routeViewModel.endStationQuery.collectAsState().value,
                 onQueryChange = { routeViewModel.onEndStationQueryChange(it) },
+                onClear = { routeViewModel.clearEndStation() },
                 suggestions = routeViewModel.endStationSuggestions.collectAsState().value,
                 onStationSelected = { endStation = it },
                 getStationName = { routeViewModel.getStationName(it) },
                 modifier = Modifier.weight(1f)
             )
-            IconButton(onClick = {}) {
+            IconButton(
+                onClick = {
+                    favoriteEndStation?.let {
+                        endStation = it
+                        routeViewModel.onEndStationQueryChange(routeViewModel.getStationName(it))
+                    }
+                },
+                 modifier = Modifier.pointerInput(endStation) {
+                    detectTapGestures(
+                        onLongPress = { 
+                            endStation?.let { routeViewModel.toggleFavoriteEndStation(it) }
+                         }
+                    )
+                }
+            ) {
                 Icon(
                     Icons.Default.Favorite,
                     contentDescription = "Favorite End Station",
-                    tint = if (endStation != null && endStation == favoriteEndStation) Color.Red else Color.Gray,
-                     modifier = Modifier.pointerInput(endStation) {
-                        detectTapGestures(
-                            onLongPress = { 
-                                endStation?.let { routeViewModel.toggleFavoriteEndStation(it) }
-                             }
-                        )
-                    }
+                    tint = if (endStation != null && endStation == favoriteEndStation) Color.Red else Color.Gray
                 )
             }
         }
@@ -171,6 +188,7 @@ fun StationAutocompleteField(
     label: String,
     query: String,
     onQueryChange: (String) -> Unit,
+    onClear: () -> Unit,
     suggestions: List<Station>,
     onStationSelected: (Station) -> Unit,
     getStationName: (Station) -> String,
@@ -194,7 +212,13 @@ fun StationAutocompleteField(
             },
             label = { Text(label) },
             trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                if (query.isNotEmpty()) {
+                    IconButton(onClick = onClear) {
+                        Icon(Icons.Default.Clear, contentDescription = "Clear")
+                    }
+                } else {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                }
             },
             modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryEditable).fillMaxWidth()
         )

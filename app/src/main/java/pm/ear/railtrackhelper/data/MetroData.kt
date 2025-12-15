@@ -2,7 +2,7 @@ package pm.ear.railtrackhelper.data
 
 import android.content.Context
 
-// Corrected data structure using a generic 'nativeName' key for scalability.
+// Your superior, cleaner data structure.
 data class Station(
     val nameEn: String,
     val nativeName: String, // The correct, generic key for the native language name.
@@ -11,6 +11,7 @@ data class Station(
 
 data class MetroLine(
     val lineId: String,
+    val lineType: String, // e.g., "Metro", "Proastiakos", "Tram"
     val lineColor: String, // Hex color string
     val stations: List<Station>
 )
