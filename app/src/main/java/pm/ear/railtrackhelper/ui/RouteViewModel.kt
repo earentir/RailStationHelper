@@ -48,63 +48,67 @@ class RouteViewModel(private val userPreferencesRepository: UserPreferencesRepos
     private val _routeResult = MutableStateFlow<RouteResult>(RouteResult.Empty)
     val routeResult: StateFlow<RouteResult> = _routeResult
 
+    private val allStationsInSelectedCity: StateFlow<List<Station>> = selectedCity.map {
+        it.lines.flatMap { line -> line.stations }.distinctBy { it.nameEn }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
     val startStationSuggestions: StateFlow<List<Station>> = combine(
-        _startStationQuery, selectedCity
-    ) { query, city ->
+        _startStationQuery, allStationsInSelectedCity
+    ) { query, stations ->
         if (query.isBlank()) {
-            city.stations
+            stations
         } else {
-            city.stations.filter {
-                it.nameEn.contains(query, ignoreCase = true) || it.nameEl.contains(query, ignoreCase = true)
+            stations.filter {
+                it.nameEn.contains(query, ignoreCase = true) || it.nativeName.contains(query, ignoreCase = true)
             }
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     val endStationSuggestions: StateFlow<List<Station>> = combine(
-        _endStationQuery, selectedCity
-    ) { query, city ->
+        _endStationQuery, allStationsInSelectedCity
+    ) { query, stations ->
         if (query.isBlank()) {
-            city.stations
+            stations
         } else {
-            city.stations.filter {
-                it.nameEn.contains(query, ignoreCase = true) || it.nameEl.contains(query, ignoreCase = true)
+            stations.filter {
+                it.nameEn.contains(query, ignoreCase = true) || it.nativeName.contains(query, ignoreCase = true)
             }
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     val favoriteStationSuggestions: StateFlow<List<Station>> = combine(
-        _favoriteStationQuery, selectedCity
-    ) { query, city ->
+        _favoriteStationQuery, allStationsInSelectedCity
+    ) { query, stations ->
         if (query.isBlank()) {
-            city.stations
+            stations
         } else {
-            city.stations.filter {
-                it.nameEn.contains(query, ignoreCase = true) || it.nameEl.contains(query, ignoreCase = true)
+            stations.filter {
+                it.nameEn.contains(query, ignoreCase = true) || it.nativeName.contains(query, ignoreCase = true)
             }
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     val favoriteStartStation: StateFlow<Station?> = selectedCity.flatMapLatest { city ->
         userPreferencesRepository.favoriteStartStation(city.name).map { stationName ->
-            city.stations.find { it.nameEn == stationName }
+            allStationsInSelectedCity.value.find { it.nameEn == stationName }
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     val favoriteEndStation: StateFlow<Station?> = selectedCity.flatMapLatest { city ->
         userPreferencesRepository.favoriteEndStation(city.name).map { stationName ->
-            city.stations.find { it.nameEn == stationName }
+            allStationsInSelectedCity.value.find { it.nameEn == stationName }
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     val lastStartStation: StateFlow<Station?> = selectedCity.flatMapLatest { city ->
         userPreferencesRepository.lastStartStation(city.name).map { stationName ->
-            city.stations.find { it.nameEn == stationName }
+            allStationsInSelectedCity.value.find { it.nameEn == stationName }
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     val lastEndStation: StateFlow<Station?> = selectedCity.flatMapLatest { city ->
         userPreferencesRepository.lastEndStation(city.name).map { stationName ->
-            city.stations.find { it.nameEn == stationName }
+            allStationsInSelectedCity.value.find { it.nameEn == stationName }
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
@@ -146,31 +150,27 @@ class RouteViewModel(private val userPreferencesRepository: UserPreferencesRepos
         }
     }
 
-    fun setFavoriteStartStation(station: Station) {
+    fun toggleFavoriteStartStation(station: Station) {
         viewModelScope.launch {
-            userPreferencesRepository.setFavoriteStartStation(selectedCity.value.name, station.nameEn)
-            _snackbarChannel.send("Set ${getStationName(station)} as favorite start station.")
+            if (favoriteStartStation.value == station) {
+                userPreferencesRepository.clearFavoriteStartStation(selectedCity.value.name)
+                _snackbarChannel.send("${getStationName(station)} removed from favorites.")
+            } else {
+                userPreferencesRepository.setFavoriteStartStation(selectedCity.value.name, station.nameEn)
+                _snackbarChannel.send("Set ${getStationName(station)} as favorite start station.")
+            }
         }
     }
 
-    fun setFavoriteEndStation(station: Station) {
+    fun toggleFavoriteEndStation(station: Station) {
         viewModelScope.launch {
-            userPreferencesRepository.setFavoriteEndStation(selectedCity.value.name, station.nameEn)
-            _snackbarChannel.send("Set ${getStationName(station)} as favorite end station.")
-        }
-    }
-
-    fun clearFavoriteStartStation() {
-        viewModelScope.launch {
-            userPreferencesRepository.clearFavoriteStartStation(selectedCity.value.name)
-            _snackbarChannel.send("Favorite start station cleared.")
-        }
-    }
-
-    fun clearFavoriteEndStation() {
-        viewModelScope.launch {
-            userPreferencesRepository.clearFavoriteEndStation(selectedCity.value.name)
-            _snackbarChannel.send("Favorite end station cleared.")
+            if (favoriteEndStation.value == station) {
+                userPreferencesRepository.clearFavoriteEndStation(selectedCity.value.name)
+                _snackbarChannel.send("${getStationName(station)} removed from favorites.")
+            } else {
+                userPreferencesRepository.setFavoriteEndStation(selectedCity.value.name, station.nameEn)
+                _snackbarChannel.send("Set ${getStationName(station)} as favorite end station.")
+            }
         }
     }
 
@@ -188,7 +188,7 @@ class RouteViewModel(private val userPreferencesRepository: UserPreferencesRepos
     }
 
     fun getStationName(station: Station): String {
-        return if (displayLanguage.value == "Native") station.nameEl else station.nameEn
+        return if (displayLanguage.value == "Native") station.nativeName else station.nameEn
     }
 
     fun clearStartStation() {

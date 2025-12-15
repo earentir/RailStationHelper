@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import pm.ear.railtrackhelper.data.MetroData
 import pm.ear.railtrackhelper.data.UserPreferencesRepository
 import pm.ear.railtrackhelper.ui.AppViewModelFactory
 import pm.ear.railtrackhelper.ui.LinesScreen
@@ -46,6 +47,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MetroData.init(this)
         enableEdgeToEdge()
         setContent {
             RailStationHelperTheme {

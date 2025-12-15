@@ -1,0 +1,46 @@
+{
+  "name": "Thessaloniki",
+  "lines": [
+    {
+      "lineId": "T1",
+      "lineColor": "#D6000D",
+      "stations": [
+        { "nameEn": "Neos Sidirodromikos Stathmos", "nativeName": "Νέος Σιδηροδρομικός Σταθμός", "connections": ["T2"] },
+        { "nameEn": "Dimokratias", "nativeName": "Δημοκρατίας", "connections": ["T2"] },
+        { "nameEn": "Venizelou", "nativeName": "Βενιζέλου", "connections": ["T2"] },
+        { "nameEn": "Agia Sofia", "nativeName": "Αγίας Σοφίας", "connections": ["T2"] },
+        { "nameEn": "Sintrivani/Ekthesi", "nativeName": "Σιντριβάνι/Έκθεση", "connections": ["T2"] },
+        { "nameEn": "Panepistimio", "nativeName": "Πανεπιστήμιο", "connections": ["T2"] },
+        { "nameEn": "Papafi", "nativeName": "Παπάφη", "connections": ["T2"] },
+        { "nameEn": "Efklidi", "nativeName": "Ευκλείδη", "connections": ["T2"] },
+        { "nameEn": "Fleming", "nativeName": "Φλέμινγκ", "connections": ["T2"] },
+        { "nameEn": "Analipseos", "nativeName": "Αναλήψεως", "connections": ["T2"] },
+        { "nameEn": "25 Martiou", "nativeName": "25ης Μαρτίου", "connections": ["T2"] },
+        { "nameEn": "Voulgari", "nativeName": "Βούλγαρη", "connections": [] },
+        { "nameEn": "Nea Elvetia", "nativeName": "Νέα Ελβετία", "connections": [] }
+      ]
+    },
+    {
+      "lineId": "T2",
+      "lineColor": "#005AAA",
+      "stations": [
+        { "nameEn": "Neos Sidirodromikos Stathmos", "nativeName": "Νέος Σιδηροδρομικός Σταθμός", "connections": ["T1"] },
+        { "nameEn": "Dimokratias", "nativeName": "Δημοκρατίας", "connections": ["T1"] },
+        { "nameEn": "Venizelou", "nativeName": "Βενιζέλου", "connections": ["T1"] },
+        { "nameEn": "Agia Sofia", "nativeName": "Αγίας Σοφίας", "connections": ["T1"] },
+        { "nameEn": "Sintrivani/Ekthesi", "nativeName": "Σιντριβάνι/Έκθεση", "connections": ["T1"] },
+        { "nameEn": "Panepistimio", "nativeName": "Πανεπιστήμιο", "connections": ["T1"] },
+        { "nameEn": "Papafi", "nativeName": "Παπάφη", "connections": ["T1"] },
+        { "nameEn": "Efklidi", "nativeName": "Ευκλείδη", "connections": ["T1"] },
+        { "nameEn": "Fleming", "nativeName": "Φλέμινγκ", "connections": ["T1"] },
+        { "nameEn": "Analipseos", "nativeName": "Αναλήψεως", "connections": ["T1"] },
+        { "nameEn": "25 Martiou", "nativeName": "25ης Μαρτίου", "connections": ["T1"] },
+        { "nameEn": "Nomarchia", "nativeName": "Νομαρχία", "connections": [] },
+        { "nameEn": "Kalamaria", "nativeName": "Καλαμαριά", "connections": [] },
+        { "nameEn": "Aretsou", "nativeName": "Αρετσού", "connections": [] },
+        { "nameEn": "Nea Krini", "nativeName": "Νέα Κρήνη", "connections": [] },
+        { "nameEn": "Mikra", "nativeName": "Μίκρα", "connections": [] }
+      ]
+    }
+  ]
+}

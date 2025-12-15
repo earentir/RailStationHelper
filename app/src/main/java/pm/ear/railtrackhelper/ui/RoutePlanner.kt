@@ -99,10 +99,7 @@ fun RoutePlannerScreen(
                     modifier = Modifier.pointerInput(startStation) {
                         detectTapGestures(
                             onLongPress = { 
-                                startStation?.let { 
-                                    if (it == favoriteStartStation) routeViewModel.clearFavoriteStartStation() 
-                                    else routeViewModel.setFavoriteStartStation(it) 
-                                }
+                                startStation?.let { routeViewModel.toggleFavoriteStartStation(it) } 
                             }
                         )
                     }
@@ -128,10 +125,7 @@ fun RoutePlannerScreen(
                      modifier = Modifier.pointerInput(endStation) {
                         detectTapGestures(
                             onLongPress = { 
-                                endStation?.let { 
-                                    if (it == favoriteEndStation) routeViewModel.clearFavoriteEndStation() 
-                                    else routeViewModel.setFavoriteEndStation(it) 
-                                }
+                                endStation?.let { routeViewModel.toggleFavoriteEndStation(it) }
                              }
                         )
                     }

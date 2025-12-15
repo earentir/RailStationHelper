@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -75,9 +76,8 @@ fun LinesScreen(modifier: Modifier = Modifier, routeViewModel: RouteViewModel = 
             Text("Stations for line ${line.lineId}:")
             Spacer(modifier = Modifier.height(8.dp))
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                itemsIndexed(line.stations) { index, stationName ->
-                    val station = selectedCity.stations.find { it.nameEn == stationName }!!
-                    StationTimeline(station, line.lineId, routeViewModel, index == 0, index == line.stations.size - 1)
+                itemsIndexed(line.stations) { index, station ->
+                    StationTimeline(station, line, routeViewModel, index == 0, index == line.stations.size - 1)
                 }
             }
         }
@@ -85,9 +85,9 @@ fun LinesScreen(modifier: Modifier = Modifier, routeViewModel: RouteViewModel = 
 }
 
 @Composable
-fun StationTimeline(station: Station, lineId: String, routeViewModel: RouteViewModel, isFirst: Boolean, isLast: Boolean) {
-    val lineColor = getLineColor(lineId)
-    val isConnection = station.lines.size > 1
+fun StationTimeline(station: Station, line: MetroLine, routeViewModel: RouteViewModel, isFirst: Boolean, isLast: Boolean) {
+    val lineColor = Color(android.graphics.Color.parseColor(line.lineColor))
+    val isConnection = station.connections.isNotEmpty()
 
     Row(modifier = Modifier.height(64.dp), verticalAlignment = Alignment.CenterVertically) {
         Canvas(modifier = Modifier.width(48.dp).fillMaxHeight()) {
@@ -97,7 +97,6 @@ fun StationTimeline(station: Station, lineId: String, routeViewModel: RouteViewM
             val startY = if (isFirst) yCenter else 0f
             val endY = if (isLast) yCenter else size.height
 
-            // Draw the line
             drawLine(
                 color = lineColor,
                 start = Offset(x = xCenter, y = startY),
@@ -106,7 +105,6 @@ fun StationTimeline(station: Station, lineId: String, routeViewModel: RouteViewM
             )
 
             if (isConnection) {
-                // Hollow circle for connection
                 drawCircle(
                     color = Color.White,
                     radius = 18f,
@@ -119,7 +117,6 @@ fun StationTimeline(station: Station, lineId: String, routeViewModel: RouteViewM
                     style = Stroke(width = strokeWidth)
                 )
             } else {
-                // Solid circle for regular stop
                 drawCircle(
                     color = lineColor,
                     radius = 12f,
@@ -134,18 +131,7 @@ fun StationTimeline(station: Station, lineId: String, routeViewModel: RouteViewM
 
         if (isConnection) {
             Spacer(Modifier.width(8.dp))
-            Text("(${station.lines.joinToString()})")
+            Text("(${station.connections.joinToString()})")
         }
-    }
-}
-
-fun getLineColor(lineId: String): Color {
-    return when (lineId) {
-        "M1" -> Color(0xFF009639)
-        "M2" -> Color(0xFFDA2128)
-        "M3" -> Color(0xFF0077C0)
-        "T1" -> Color(0xFFD6000D) // Thessaloniki Line 1
-        "T2" -> Color(0xFF005AAA) // Thessaloniki Line 2
-        else -> Color.Gray
     }
 }
